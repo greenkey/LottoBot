@@ -21,3 +21,12 @@ class LottoBotTest(unittest.TestCase):
         bot = LottoBot('token')
         bot.handle_start(bot, updater())
         self.assertIn(call().message.reply_text('Welcome!'), updater.mock_calls)
+
+    @patch('lotto_bot.Updater')
+    def test_give_five_lotto_numbers(self, updater):
+        bot = LottoBot('token')
+        output = bot.get_numbers().split()
+        self.assertEqual(5, len(output))
+        for n in output:
+            self.assertTrue(n.isnumeric())
+            self.assertTrue(1 <= int(n) <= 90)
