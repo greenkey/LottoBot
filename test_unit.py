@@ -2,22 +2,22 @@
 
 import unittest
 from unittest.mock import patch, call
+
 import start_bot
+from lotto_bot import LottoBot
 
-class TelegramTest(unittest.TestCase):
 
-    @patch('telegram.ext.Updater')
-    def test_bot_starts(self, updater):
-        start_bot.start_bot('token')
+class LottoBotTest(unittest.TestCase):
+
+    @patch('lotto_bot.Updater')
+    def test_bot_object_starts(self, updater):
+        bot = LottoBot('token')
+        bot.run()
         self.assertIn(call('token'), updater.mock_calls)
         self.assertIn(call().start_polling(), updater.mock_calls)
-        self.assertIn(call().idle(), updater.mock_calls)
 
-
-class TestNumberGiver(unittest.TestCase):
-
-    def test_give_five_random_numbers(self):
-        output = start_bot.get_numbers()
-        self.assertEqual(5, len(output))
-        for n in output:
-            self.assertIsInstance(n, int)
+    @patch('lotto_bot.Updater')
+    def test_handle_start(self, updater):
+        bot = LottoBot('token')
+        bot.handle_start(bot, updater())
+        self.assertIn(call().message.reply_text('Welcome!'), updater.mock_calls)
