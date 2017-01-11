@@ -25,7 +25,6 @@ class LottoBot():
         reply_markup = ReplyKeyboardMarkup(custom_keyboard)
 
         bot.sendMessage(chat_id=update.message.chat_id,
-                        text = "Custom Keyboard Test",
                         reply_markup = reply_markup)
 
     def handle_lotto(self, bot, update):
