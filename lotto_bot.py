@@ -1,5 +1,6 @@
 from os import environ
 from telegram.ext import Updater, CommandHandler
+from telegram import ReplyKeyboardMarkup
 import random
 
 
@@ -20,6 +21,13 @@ class LottoBot():
     def handle_start(self, bot, update):
         update.message.reply_text('Welcome!')
 
+        custom_keyboard = [['/lotto']]
+        reply_markup = ReplyKeyboardMarkup(custom_keyboard)
+
+        bot.sendMessage(chat_id=update.message.chat_id,
+                        text = "Custom Keyboard Test",
+                        reply_markup = reply_markup)
+
     def handle_lotto(self, bot, update):
         update.message.reply_text(self.get_numbers())
 
@@ -27,4 +35,4 @@ class LottoBot():
         numbers = set()
         while len(numbers)<5:
             numbers.add(random.randrange(1,90))
-        return ' '.join([str(n) for n in numbers])
+        return ' '.join([str(n) for n in sorted(numbers)])

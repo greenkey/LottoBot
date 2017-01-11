@@ -33,7 +33,7 @@ class FunctionalTests(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.client.disconnect()
-        cls.bot.updater.stop()
+        #cls.bot.updater.stop()
 
     def get_last_line(self, after=None):
         total_count, messages, senders = self.client.get_message_history(self.bot_entity, limit=10)
